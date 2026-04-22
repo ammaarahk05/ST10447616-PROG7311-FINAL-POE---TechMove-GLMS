@@ -1,3 +1,4 @@
+wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
@@ -69,7 +70,7 @@ wwwroot\uploads\aa4fb1f3-0fff-43a8-9538-0fce77cf00c0.pdf
 wwwroot\uploads\ae8ab0df-dfc0-4830-a281-291df648b533.pdf
 wwwroot\uploads\b09d9dda-4a45-427c-8bb1-622fbbdaa75c.pdf
 wwwroot\uploads\b8d070c5-f464-42f4-85f8-992889fed29a.pdf
-wwwroot\css\site.css
+C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\wwwroot\css\site.css
 C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\wwwroot\favicon.ico
 C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\wwwroot\js\site.js
 C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
@@ -131,4 +132,3 @@ C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\wwwroo
 C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\wwwroot\lib\jquery\dist\jquery.slim.min.js
 C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\wwwroot\lib\jquery\dist\jquery.slim.min.map
 C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\wwwroot\lib\jquery\LICENSE.txt
-C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\wwwroot\css\site.css

@@ -237,7 +237,7 @@ namespace TechMoveLogisticSystem.Controllers
             {
                 decimal rate = await _currencyService.GetUsdToZarRateAsync();
 
-                // convert edited USD → ZAR
+                // convert edited USD to ZAR
                 serviceRequest.Cost = _currencyService.ConvertUsdToZar(serviceRequest.Cost, rate);
 
                 _context.Update(serviceRequest);

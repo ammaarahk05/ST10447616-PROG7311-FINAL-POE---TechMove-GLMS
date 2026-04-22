@@ -27,16 +27,16 @@ namespace TechMoveLogisticSystem.Data
                 .Property(sr => sr.Cost)
                 .HasPrecision(18, 2);
 
-            // defining relationships clearly (for better marks)
+            // defining relationships clearly 
 
-            // Client → Contracts
+            // Client to Contracts
             modelBuilder.Entity<Contract>()
                 .HasOne(c => c.Client)
                 .WithMany(c => c.Contracts)
                 .HasForeignKey(c => c.ClientId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Contract → ServiceRequests
+            // Contract to ServiceRequests
             modelBuilder.Entity<ServiceRequest>()
                 .HasOne(sr => sr.Contract)
                 .WithMany(c => c.ServiceRequests)
