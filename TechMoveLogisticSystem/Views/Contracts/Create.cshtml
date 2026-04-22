@@ -1,47 +1,52 @@
 ﻿@model TechMoveLogisticSystem.Models.Contract
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Contract";
 }
 
-<h1>Create</h1>
+<div class="form-container">
 
-<h4>Contract</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    <div class="form-card">
+
+        <!-- HEADER -->
+        <div class="form-header">
+            <h2 class="form-title">Create Contract</h2>
+            <a asp-action="Index" class="btn-outline-soft">Back</a>
+        </div>
+
         <form asp-action="Create" enctype="multipart/form-data">
+
             <div asp-validation-summary="All" class="text-danger"></div>
 
+            <!-- DATES -->
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
+                <label asp-for="StartDate"></label>
                 <input asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
 
-
             <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
+                <label asp-for="EndDate"></label>
                 <input asp-for="EndDate" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
 
-
+            <!-- STATUS -->
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
+                <label asp-for="Status"></label>
                 <select asp-for="Status" class="form-control">
-                <option value="">-- Select Status --</option>
-                <option>Draft</option>
-                <option>Active</option>
-                <option>Expired</option>
-                <option>On Hold</option>
-              </select>
+                    <option value="">-- Select Status --</option>
+                    <option>Draft</option>
+                    <option>Active</option>
+                    <option>Expired</option>
+                    <option>On Hold</option>
+                </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
 
-
+            <!-- SERVICE LEVEL -->
             <div class="form-group">
-                <label asp-for="ServiceLevel" class="control-label"></label>
+                <label asp-for="ServiceLevel"></label>
                 <select asp-for="ServiceLevel" class="form-control">
                     <option value="">-- Select Service Level --</option>
                     <option value="Standard">Standard</option>
@@ -50,38 +55,35 @@
                 <span asp-validation-for="ServiceLevel" class="text-danger"></span>
             </div>
 
-
+            <!-- CLIENT -->
             <div class="form-group">
-    <label asp-for="ClientId" class="control-label"></label>
-       <!-- i used a dropdown so user selects client by name instead of typing ID -->
-    <select asp-for="ClientId" class="form-control" asp-items="ViewBag.ClientId"></select>
-    <span asp-validation-for="ClientId" class="text-danger"></span>
-         </div>
+                <label asp-for="ClientId"></label>
+                <select asp-for="ClientId" class="form-control" asp-items="ViewBag.ClientId"></select>
+                <span asp-validation-for="ClientId" class="text-danger"></span>
+            </div>
 
-
-            <!-- File input field -->
+            <!-- FILE -->
             <div class="form-group">
-                <div class="form-group">
-                    <label class="control-label">Signed Agreement (File Upload)</label>
-                    <p class="text-muted small">Upload contract agreement in PDF format only</p>
-                </div>
-    <input asp-for="SignedAgreementFile" type="file" class="form-control" />
-    <span asp-validation-for="SignedAgreementFile" class="text-danger"></span>
-</div>
+                <label>Signed Agreement</label>
+                <div class="file-note">Upload contract agreement in PDF format only</div>
 
+                <input asp-for="SignedAgreementFile" type="file" class="form-control" />
+                <span asp-validation-for="SignedAgreementFile" class="text-danger"></span>
+            </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <!-- ACTIONS -->
+            <div class="form-actions">
+                <a asp-action="Index" class="btn-outline-soft">Cancel</a>
+                <button type="submit" class="btn-soft">Create Contract</button>
             </div>
 
         </form>
+
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

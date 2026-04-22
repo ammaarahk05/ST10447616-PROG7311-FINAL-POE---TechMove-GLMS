@@ -336,4 +336,5 @@ C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\obj\De
 C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\obj\Debug\net10.0\TechMoveLogisticSystem.pdb
 C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\obj\Debug\net10.0\TechMoveLogisticSystem.genruntimeconfig.cache
 C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\obj\Debug\net10.0\ref\TechMoveLogisticSystem.dll
-C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\obj\Debug\net10.0\compressed\92szacp7w6-{0}-4jv2km64r4-4jv2km64r4.gz
+C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\obj\Debug\net10.0\TechMoveLogisticSystem.sourcelink.json
+C:\Users\ammaa\source\repos\TechMoveLogisticSystem\TechMoveLogisticSystem\obj\Debug\net10.0\compressed\92szacp7w6-{0}-z9sn5emeli-z9sn5emeli.gz

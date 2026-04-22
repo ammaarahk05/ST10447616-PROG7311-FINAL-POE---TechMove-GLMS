@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\views\\contracts\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\views\\contracts\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\views\\contracts\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\views\\contracts\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\views\\contracts\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -19,16 +23,20 @@
       "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\views\\contracts\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\controllers\\contractscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\controllers\\contractscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\views\\contracts\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\views\\contracts\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\views\\contracts\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\views\\contracts\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\views\\contracts\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\views\\contracts\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\strategies\\internationalpaymentstrategy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -41,10 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\models\\contract.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\models\\contract.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\controllers\\contractscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\controllers\\contractscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\views\\servicerequests\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -73,10 +77,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\strategies\\paymentcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\strategies\\paymentcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|solutionrelative:techmovelogisticsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3CFF7B48-309E-1AA3-FCFC-699AB99049C5}|TechMoveLogisticSystem\\TechMoveLogisticSystem.csproj|c:\\users\\ammaa\\source\\repos\\techmovelogisticsystem\\techmovelogisticsystem\\models\\servicerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -162,32 +162,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Edit.cshtml",
-              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\Contracts\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Edit.cshtml",
-              "RelativeToolTip": "TechMoveLogisticSystem\\Views\\Contracts\\Edit.cshtml",
-              "ViewState": "AgIAACsAAAAAAAAAAAAwwEoAAAAGAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "TechMoveLogisticSystem\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAAEAAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-20T20:03:38.573Z",
+              "WhenOpened": "2026-04-20T14:37:12.274Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Index.cshtml",
-              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\Contracts\\Index.cshtml",
-              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Index.cshtml",
-              "RelativeToolTip": "TechMoveLogisticSystem\\Views\\Contracts\\Index.cshtml",
-              "ViewState": "AgIAAE8AAAAAAAAAAAAAAGwAAAABAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Create.cshtml",
+              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\Contracts\\Create.cshtml",
+              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Create.cshtml",
+              "RelativeToolTip": "TechMoveLogisticSystem\\Views\\Contracts\\Create.cshtml",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAwwFgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-20T19:43:37.418Z",
+              "WhenOpened": "2026-04-20T18:59:32.572Z",
               "EditorCaption": ""
             },
             {
@@ -198,7 +198,7 @@
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\wwwroot\\css\\site.css",
               "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\wwwroot\\css\\site.css",
               "RelativeToolTip": "TechMoveLogisticSystem\\wwwroot\\css\\site.css",
-              "ViewState": "AgIAAIkAAAAAAAAAAAAowJEAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAE4BAAAAAAAAAAAmwGgBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2026-04-22T05:07:28Z",
               "EditorCaption": ""
@@ -206,19 +206,71 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Edit.cshtml",
+              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\Contracts\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Edit.cshtml",
+              "RelativeToolTip": "TechMoveLogisticSystem\\Views\\Contracts\\Edit.cshtml",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAwwFUAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-20T20:03:38.573Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Details.cshtml",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\Contracts\\Details.cshtml",
               "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Details.cshtml",
               "RelativeToolTip": "TechMoveLogisticSystem\\Views\\Contracts\\Details.cshtml",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAmwD0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAQwEoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-04-20T20:07:24.599Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Program.cs",
+              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Program.cs",
+              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Program.cs",
+              "RelativeToolTip": "TechMoveLogisticSystem\\Program.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAYwCwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T12:53:27.422Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ContractsController.cs",
+              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Controllers\\ContractsController.cs",
+              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Controllers\\ContractsController.cs",
+              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Controllers\\ContractsController.cs",
+              "RelativeToolTip": "TechMoveLogisticSystem\\Controllers\\ContractsController.cs",
+              "ViewState": "AgIAAK0AAAAAAAAAAAAqwLIAAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-20T13:02:37.621Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Index.cshtml",
+              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\Contracts\\Index.cshtml",
+              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Index.cshtml",
+              "RelativeToolTip": "TechMoveLogisticSystem\\Views\\Contracts\\Index.cshtml",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAswG4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-20T19:43:37.418Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Delete.cshtml",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\Contracts\\Delete.cshtml",
@@ -226,38 +278,11 @@
               "RelativeToolTip": "TechMoveLogisticSystem\\Views\\Contracts\\Delete.cshtml",
               "ViewState": "AgIAACMAAAAAAAAAAAAwwEIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-20T20:32:18.041Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-20T20:32:18.041Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Create.cshtml",
-              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\Contracts\\Create.cshtml",
-              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Contracts\\Create.cshtml",
-              "RelativeToolTip": "TechMoveLogisticSystem\\Views\\Contracts\\Create.cshtml",
-              "ViewState": "AgIAADgAAAAAAAAAAAAwwFcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-20T18:59:32.572Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "TechMoveLogisticSystem\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-20T14:37:12.274Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "InternationalPaymentStrategy.cs",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Strategies\\InternationalPaymentStrategy.cs",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Strategies\\InternationalPaymentStrategy.cs",
@@ -265,12 +290,11 @@
               "RelativeToolTip": "TechMoveLogisticSystem\\Strategies\\InternationalPaymentStrategy.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T12:23:36.637Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-21T12:23:36.637Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "MonthlyPaymentStrategy.cs",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Strategies\\MonthlyPaymentStrategy.cs",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Strategies\\MonthlyPaymentStrategy.cs",
@@ -278,12 +302,11 @@
               "RelativeToolTip": "TechMoveLogisticSystem\\Strategies\\MonthlyPaymentStrategy.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T12:23:18.846Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-21T12:23:18.846Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\ServiceRequests\\Create.cshtml",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\ServiceRequests\\Create.cshtml",
@@ -295,7 +318,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "ServiceRequestsController.cs",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Controllers\\ServiceRequestsController.cs",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Controllers\\ServiceRequestsController.cs",
@@ -307,7 +330,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\ServiceRequests\\Edit.cshtml",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\ServiceRequests\\Edit.cshtml",
@@ -319,19 +342,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ContractsController.cs",
-              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Controllers\\ContractsController.cs",
-              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Controllers\\ContractsController.cs",
-              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Controllers\\ContractsController.cs",
-              "RelativeToolTip": "TechMoveLogisticSystem\\Controllers\\ContractsController.cs",
-              "ViewState": "AgIAAPIAAAAAAAAAAAAgwPcAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-20T13:02:37.621Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Contract.cs",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Models\\Contract.cs",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Models\\Contract.cs",
@@ -343,7 +354,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\ServiceRequests\\Details.cshtml",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\ServiceRequests\\Details.cshtml",
@@ -355,7 +366,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Views\\ServiceRequests\\Index.cshtml",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Views\\ServiceRequests\\Index.cshtml",
@@ -367,7 +378,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "PaymentContext.cs",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Strategies\\PaymentContext.cs",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Strategies\\PaymentContext.cs",
@@ -379,7 +390,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "IPaymentStrategy.cs",
               "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Strategies\\IPaymentStrategy.cs",
               "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Strategies\\IPaymentStrategy.cs",
@@ -388,18 +399,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-21T12:23:00.86Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Program.cs",
-              "RelativeDocumentMoniker": "TechMoveLogisticSystem\\Program.cs",
-              "ToolTip": "C:\\Users\\ammaa\\source\\repos\\TechMoveLogisticSystem\\TechMoveLogisticSystem\\Program.cs",
-              "RelativeToolTip": "TechMoveLogisticSystem\\Program.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-20T12:53:27.422Z"
             },
             {
               "$type": "Document",

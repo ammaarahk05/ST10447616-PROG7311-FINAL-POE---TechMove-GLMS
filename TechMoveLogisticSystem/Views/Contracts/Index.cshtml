@@ -4,108 +4,111 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="page-header">
+    <h2 class="page-title">Contracts</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <a asp-action="Create" class="btn-soft">
+        + Create New
+    </a>
+</div>
 
-<form method="get">
-    <div class="row">
+<!-- FILTER BAR -->
+<div class="filter-bar">
+    <form method="get">
+        <div class="row g-2 align-items-end">
 
-        <div class="col-md-3">
-            <label>Status</label>
-            <select name="statusFilter" class="form-control">
-                <option value="">-- All --</option>
-                <option value="Active">Active</option>
-                <option value="Expired">Expired</option>
-                <option value="Draft">Draft</option>
-                <option value="On Hold">On Hold</option>
-            </select>
+            <div class="col-md-3">
+                <label>Status</label>
+                <select name="statusFilter" class="form-control">
+                    <option value="">-- All --</option>
+                    <option value="Active">Active</option>
+                    <option value="Expired">Expired</option>
+                    <option value="Draft">Draft</option>
+                    <option value="On Hold">On Hold</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label>Start Date From</label>
+                <input type="date" name="startDate" class="form-control" />
+            </div>
+
+            <div class="col-md-3">
+                <label>End Date To</label>
+                <input type="date" name="endDate" class="form-control" />
+            </div>
+
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn-soft">Filter</button>
+                <a asp-action="Index" class="btn-outline-soft">Reset</a>
+            </div>
+
         </div>
+    </form>
+</div>
 
-        <div class="col-md-3">
-            <label>Start Date From</label>
-            <input type="date" name="startDate" class="form-control" />
-        </div>
+<!-- TABLE -->
+<table class="contract-table">
 
-        <div class="col-md-3">
-            <label>End Date To</label>
-            <input type="date" name="endDate" class="form-control" />
-        </div>
-
-        <div class="col-md-3" style="margin-top:25px;">
-            <button type="submit" class="btn btn-primary">Filter</button>
-            <a asp-action="Index" class="btn btn-secondary">Reset</a>
-        </div>
-
-    </div>
-</form>
-
-<hr />
-
-<table class="table">
     <thead>
         <tr>
             <th>Contract ID</th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ServiceLevel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SignedAgreementPath)
-            </th>
+            <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+            <th>@Html.DisplayNameFor(model => model.EndDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th>@Html.DisplayNameFor(model => model.ServiceLevel)</th>
+            <th>@Html.DisplayNameFor(model => model.Client)</th>
+            <th>Signed Agreement File</th>
             <th></th>
         </tr>
     </thead>
+
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+        @foreach (var item in Model)
+        {
+            var statusClass = "badge-draft";
+
+            if (item.Status == "Active") statusClass = "badge-active";
+            else if (item.Status == "Expired") statusClass = "badge-expired";
+            else if (item.Status == "On Hold") statusClass = "badge-hold";
+
+            <tr>
                 <td>@item.Id</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceLevel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Client.Name)
-            </td>
-            <td>
-                @if (!string.IsNullOrEmpty(item.SignedAgreementPath))
-                {
-           <a href="@item.SignedAgreementPath" target="_blank">
-                @item.SignedAgreementFileName
-          </a>
-                }
-                else
-                {
-    <span>No file</span>
-                }
-</td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+
+                <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+
+                <td>
+                    <span class="badge @statusClass">
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </span>
+                </td>
+
+                <td>@Html.DisplayFor(modelItem => item.ServiceLevel)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.Client.Name)</td>
+
+                <td>
+                    @if (!string.IsNullOrEmpty(item.SignedAgreementPath))
+                    {
+                        <a href="@item.SignedAgreementPath" target="_blank">
+                            @item.SignedAgreementFileName
+                        </a>
+                    }
+                    else
+                    {
+                        <span>No file</span>
+                    }
+                </td>
+
+                <td class="text-end">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn-outline-soft">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn-outline-soft">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn-outline-soft">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
+
 </table>

@@ -1,22 +1,26 @@
 ﻿@model TechMoveLogisticSystem.Models.Contract
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Contract";
 }
 
-<h1>Edit</h1>
+<div class="form-container">
 
-<h4>Contract</h4>
-<hr />
+    <div class="form-card">
 
-<div class="row">
-    <div class="col-md-4">
+        <!-- HEADER -->
+        <div class="form-header">
+            <h2 class="form-title">Edit Contract</h2>
+            <a asp-action="Index" class="btn-outline-soft">Back</a>
+        </div>
 
         <form asp-action="Edit" enctype="multipart/form-data">
+
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <input type="hidden" asp-for="Id" />
 
+            <!-- DATES -->
             <div class="form-group">
                 <label asp-for="StartDate"></label>
                 <input asp-for="StartDate" class="form-control" />
@@ -27,6 +31,7 @@
                 <input asp-for="EndDate" class="form-control" />
             </div>
 
+            <!-- STATUS -->
             <div class="form-group">
                 <label asp-for="Status"></label>
                 <select asp-for="Status" class="form-control">
@@ -37,6 +42,7 @@
                 </select>
             </div>
 
+            <!-- SERVICE LEVEL -->
             <div class="form-group">
                 <label asp-for="ServiceLevel"></label>
                 <select asp-for="ServiceLevel" class="form-control">
@@ -45,31 +51,36 @@
                 </select>
             </div>
 
+            <!-- CLIENT -->
             <div class="form-group">
                 <label asp-for="ClientId"></label>
                 <select asp-for="ClientId" asp-items="ViewBag.ClientId" class="form-control"></select>
             </div>
 
+            <!-- FILE -->
             <div class="form-group">
-                <label asp-for="SignedAgreementFile"></label>
+                <label>Signed Agreement</label>
+
                 <input asp-for="SignedAgreementFile" type="file" class="form-control" />
+
+                @if (!string.IsNullOrEmpty(Model.SignedAgreementPath))
+                {
+                    <div class="file-note" style="margin-top:5px;">
+                        Current file:
+                        <a href="@Model.SignedAgreementPath" target="_blank">
+                            @Model.SignedAgreementFileName
+                        </a>
+                    </div>
+                }
             </div>
 
-            @if (!string.IsNullOrEmpty(Model.SignedAgreementPath))
-            {
-                <p>
-                    Current File:
-                    <a href="@Model.SignedAgreementPath" target="_blank">View PDF</a>
-                </p>
-            }
+            <!-- ACTIONS -->
+            <div class="form-actions">
+                <a asp-action="Index" class="btn-outline-soft">Cancel</a>
+                <button type="submit" class="btn-soft">Save Changes</button>
+            </div>
 
-            <br />
-
-            <button type="submit" class="btn btn-primary">Save</button>
         </form>
-        <div>
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-        </div>
 
     </div>
 </div>

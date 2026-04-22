@@ -176,7 +176,7 @@ namespace TechMoveLogisticSystem.Controllers
 
             if (existingContract == null) return NotFound();
 
-            if (contract.SignedAgreementFile != null)
+            if (contract.SignedAgreementFile != null && contract.SignedAgreementFile.Length > 0)
             {
                 var extension = Path.GetExtension(contract.SignedAgreementFile.FileName);
 
@@ -207,6 +207,7 @@ namespace TechMoveLogisticSystem.Controllers
             else
             {
                 contract.SignedAgreementPath = existingContract.SignedAgreementPath;
+                contract.SignedAgreementFileName = existingContract.SignedAgreementFileName;
             }
 
             if (ModelState.IsValid)

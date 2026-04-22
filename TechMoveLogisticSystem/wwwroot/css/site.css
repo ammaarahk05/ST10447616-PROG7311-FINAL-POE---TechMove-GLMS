@@ -109,7 +109,9 @@ footer {
         height: 34px;
     }
 
-/* TABLE CLEAN LOOK */
+/* CONTRACT TABLE*/
+
+
 .contract-table {
     width: 100%;
     border-collapse: separate;
@@ -119,9 +121,9 @@ footer {
     overflow: hidden;
 }
 
-    /* header */
+    /* HEADER */
     .contract-table thead {
-        background-color: #F4ECE4;
+        background-color: #E8DED3; /* slightly darker header */
     }
 
     .contract-table th {
@@ -129,37 +131,230 @@ footer {
         font-weight: 600;
         color: #6B2E2E;
         padding: 10px;
+        border-right: 1px solid #E5DBCF; /* column lines */
     }
 
-    /* rows */
+    /* BODY CELLS */
     .contract-table td {
         padding: 10px;
         font-size: 13px;
-        border-top: 1px solid #EFE7DC;
+        border-top: 1px solid #EFE7DC; /* row lines */
+        border-right: 1px solid #E5DBCF; /* column lines */
     }
 
-    /* subtle hover */
+        /* REMOVE last column border */
+        .contract-table th:last-child,
+        .contract-table td:last-child {
+            border-right: none;
+        }
+
+    /* HOVER */
     .contract-table tbody tr:hover {
         background-color: #FAF6F1;
     }
 
-/* status badges  */
-.badge-draft {
-    background-color: #bfbfbf;
+/* STATUS BADGES (FIXED) */
+.badge {
+    padding: 4px 8px;
+    border-radius: 6px;
     font-size: 11px;
+    font-weight: 500;
+    color: #fff; /* force readable text */
+}
+
+/* Contract statuses */
+.badge-draft {
+    background-color: #a0a0a0;
 }
 
 .badge-active {
     background-color: #6f9b6f;
-    font-size: 11px;
 }
 
 .badge-expired {
     background-color: #b85c5c;
-    font-size: 11px;
 }
 
 .badge-hold {
     background-color: #c7a34b;
-    font-size: 11px;
+}
+
+/* CONTRACT DETAILS PAGE */
+
+.details-container {
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+/* header */
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+    .details-header h2 {
+        font-family: 'Playfair Display', serif;
+        color: #6B2E2E;
+    }
+
+/* main card */
+.contract-card {
+    background: #fff;
+    border: 1px solid #E0D6C8;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+}
+
+/* top row */
+.contract-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .contract-top h4 {
+        margin: 0;
+        color: #2E2E2E;
+    }
+
+/* sections */
+.contract-section {
+    margin-top: 25px;
+}
+
+    .contract-section h5 {
+        font-size: 14px;
+        color: #6B2E2E;
+        margin-bottom: 10px;
+    }
+
+/* grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+/* labels */
+.label {
+    font-size: 12px;
+    color: #7a6f63;
+    display: block;
+}
+
+.info-grid p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* file link */
+.file-link {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #E0D6C8;
+    border-radius: 8px;
+    background-color: #FAF6F1;
+    color: #6B2E2E;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+    .file-link:hover {
+        background-color: #F3EDE5;
+    }
+
+/* contract details refinement */
+
+.contract-details dl {
+    margin-bottom: 0;
+}
+
+.contract-details dt {
+    font-size: 12px;
+    color: #8A7F73;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+}
+
+.contract-details dd {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* subtle divider between groups */
+.contract-divider {
+    border-top: 1px solid #EEE6DB;
+    margin: 15px 0;
+}
+
+/* ===== FORM PAGE ===== */
+
+.form-container {
+    max-width: 700px;
+    margin: 40px auto;
+}
+
+.form-card {
+    background: #ffffff;
+    border: 1px solid #E0D6C8;
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* header */
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #6B2E2E;
+}
+
+/* form groups */
+.form-group {
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        font-size: 12px;
+        color: #7a6f63;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+/* inputs */
+.form-control {
+    border-radius: 6px;
+    border: 1px solid #D6C7B5;
+    font-size: 13px;
+    height: 36px;
+}
+
+    .form-control:focus {
+        border-color: #8B3A3A;
+        box-shadow: 0 0 0 1px #8B3A3A;
+    }
+
+/* file section */
+.file-note {
+    font-size: 12px;
+    color: #9c9185;
+    margin-bottom: 5px;
+}
+
+/* buttons row */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }
