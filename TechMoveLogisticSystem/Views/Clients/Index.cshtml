@@ -1,47 +1,66 @@
 ﻿@model IEnumerable<TechMoveLogisticSystem.Models.Client>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Clients";
 }
 
-<h1>Index</h1>
+<div class="page-header">
+    <h2 class="page-title">Clients</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContactDetails)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Region)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactDetails)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Region)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <a asp-action="Create" class="btn-soft">+ New Client</a>
+</div>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+
+            <div class="custom-card h-100">
+
+                <!-- HEADER -->
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h5 style="margin:0; font-family:'Playfair Display', serif; color:#6B2E2E;">
+                        @item.Name
+                    </h5>
+                </div>
+
+                <hr style="border-color:#E0D6C8;" />
+
+                <!-- DETAILS -->
+                <div style="margin-bottom:10px;">
+                    <span class="label">Contact Details</span>
+                    <p style="margin:0;">@item.ContactDetails</p>
+                </div>
+
+                <div style="margin-bottom:15px;">
+                    <span class="label">Region</span>
+                    <p style="margin:0;">@item.Region</p>
+                </div>
+
+                <!-- ACTIONS -->
+                <div style="display:flex; justify-content:space-between; margin-top:15px;">
+
+                    <a asp-action="Details"
+                       asp-route-id="@item.Id"
+                       class="btn-outline-soft">View</a>
+
+                    <div>
+                        <a asp-action="Edit"
+                           asp-route-id="@item.Id"
+                           class="btn-outline-soft">Edit</a>
+
+                        <a asp-action="Delete"
+                           asp-route-id="@item.Id"
+                           class="btn-outline-soft"
+                           style="margin-left:5px;">Delete</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>

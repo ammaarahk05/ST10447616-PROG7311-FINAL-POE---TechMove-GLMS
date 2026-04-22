@@ -1,58 +1,83 @@
 ﻿@model TechMoveLogisticSystem.Models.ServiceRequest
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Request Details";
 }
 
-<h1>Details</h1>
+<div class="details-container">
 
-<div>
-    <h4>ServiceRequest</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            Cost
-        </dt>
-        <dd class="col-sm-10">
-            @{
-                var rate = (decimal)ViewBag.Rate;
-                var usd = Math.Round(Model.Cost / rate, 2);
-            }
+    <div class="details-header">
+        <h2>Service Request</h2>
 
-            $ @usd.ToString("N2") <br />
-            <small>R @Model.Cost.ToString("N2")</small>
-        </dd>
-        <dt class="col-sm-2">
-            Status
-        </dt>
-        <dd class="col-sm-10">
+        <a asp-action="Index" class="btn-outline-soft">Back</a>
+    </div>
+
+    <div class="contract-card">
+
+        <div class="contract-top">
+            <h4>@Model.Description</h4>
+
             @{
                 var status = Model.Status;
-                var badgeClass = "secondary";
+                var badgeClass = "badge-draft";
 
-                if (status == "Completed") badgeClass = "success";
-                else if (status == "In Progress") badgeClass = "warning";
-                else if (status == "Pending") badgeClass = "secondary";
+                if (status == "Completed") badgeClass = "badge-active";
+                else if (status == "In Progress") badgeClass = "badge-hold";
+                else if (status == "Pending") badgeClass = "badge-draft";
             }
 
-            <span class="badge bg-@badgeClass">@status</span>
-        </dd>
-        <dt class="col-sm-2">
-            Contract
-        </dt>
-        <dd class="col-sm-10">
-            Contract @Model.Contract.Id - @Model.Contract.ServiceLevel
-            (@Model.Contract.Client.Name)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+            <span class="badge @badgeClass">@status</span>
+        </div>
+
+        <div class="contract-divider"></div>
+
+        <div class="contract-section">
+            <h5>Financial Breakdown</h5>
+
+            <div class="info-grid">
+
+                <div>
+                    <span class="label">USD Cost</span>
+                    <p>$ @((Model.Cost / (decimal)ViewBag.Rate).ToString("N2"))</p>
+                </div>
+
+                <div>
+                    <span class="label">ZAR Equivalent</span>
+                    <p>R @Model.Cost.ToString("N2")</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="contract-divider"></div>
+
+        <div class="contract-section">
+            <h5>Contract Info</h5>
+
+            <div class="info-grid">
+                <div>
+                    <span class="label">Contract ID</span>
+                    <p>@Model.Contract.Id</p>
+                </div>
+
+                <div>
+                    <span class="label">Service Level</span>
+                    <p>@Model.Contract.ServiceLevel</p>
+                </div>
+
+                <div>
+                    <span class="label">Client</span>
+                    <p>@Model.Contract.Client.Name</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contract-divider"></div>
+
+        <div class="form-actions">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-soft">Edit</a>
+            <a asp-action="Index" class="btn-outline-soft">Back</a>
+        </div>
+
+    </div>
 </div>

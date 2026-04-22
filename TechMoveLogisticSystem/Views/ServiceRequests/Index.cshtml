@@ -1,66 +1,75 @@
-﻿
-@using TechMoveLogisticSystem.Strategies
+﻿@using TechMoveLogisticSystem.Strategies
 @model IEnumerable<TechMoveLogisticSystem.Models.ServiceRequest>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Service Requests";
 }
 
-<h1>Index</h1>
+<div class="page-header">
+    <h2 class="page-title">Service Requests</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Description</th>
-            <th>Cost (USD to ZAR)</th>
-            <th>Calculated Payment</th>
-            <th>Status</th>
-            <th>Contract</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewBag.ProcessedRequests)
-        {
+    <a asp-action="Create" class="btn-soft">+ New Request</a>
+</div>
+
+
+<div class="custom-card">
+
+    <table class="contract-table">
+        <thead>
             <tr>
-                <td>@item.Request.Description</td>
-
-                <td>
-                    $ @item.EstimatedUsd.ToString("N2")
-                    <br />
-                    <small class="text-muted">R @item.Request.Cost.ToString("N2")</small>
-                </td>
-
-                <td>
-                    R @item.Calculated.ToString("N2")
-                </td>
-
-                <td>
-                    @{
-                        var status = item.Request.Status;
-                        var badgeClass = "secondary";
-
-                        if (status == "Completed") badgeClass = "success";
-                        else if (status == "In Progress") badgeClass = "warning";
-                        else if (status == "Pending") badgeClass = "secondary";
-                    }
-
-                    <span class="badge bg-@badgeClass">@status</span>
-                </td>
-
-                <td>
-                    Contract @item.Request.Contract.Id - @item.Request.Contract.ServiceLevel
-                </td>
-
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Request.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Request.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Request.Id">Delete</a>
-                </td>
+                <th>Description</th>
+                <th>Cost (USD / ZAR)</th>
+                <th>Calculated Payment</th>
+                <th>Status</th>
+                <th>Contract</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+            @foreach (var item in ViewBag.ProcessedRequests)
+            {
+                <tr>
+                    <td>
+                        <strong>@item.Request.Description</strong>
+                    </td>
+
+                    <td>
+                        <div>$ @item.EstimatedUsd.ToString("N2")</div>
+                        <small class="text-muted">R @item.Request.Cost.ToString("N2")</small>
+                    </td>
+
+                    <td>
+                        <strong>R @item.Calculated.ToString("N2")</strong>
+                    </td>
+
+                    <td>
+                        @{
+                            var status = item.Request.Status;
+                            var badgeClass = "badge-secondary";
+
+                            if (status == "Completed") badgeClass = "badge-active";
+                            else if (status == "In Progress") badgeClass = "badge-hold";
+                            else if (status == "Pending") badgeClass = "badge-draft";
+                        }
+
+                        <span class="badge @badgeClass">@status</span>
+                    </td>
+
+                    <td>
+                        Contract @item.Request.Contract.Id
+                        <br />
+                        <small class="text-muted">@item.Request.Contract.ServiceLevel</small>
+                    </td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Request.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Request.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Request.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
