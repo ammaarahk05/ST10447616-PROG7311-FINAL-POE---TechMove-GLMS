@@ -1,0 +1,66 @@
+﻿
+@using TechMoveLogisticSystem.Strategies
+@model IEnumerable<TechMoveLogisticSystem.Models.ServiceRequest>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Cost (USD to ZAR)</th>
+            <th>Calculated Payment</th>
+            <th>Status</th>
+            <th>Contract</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.ProcessedRequests)
+        {
+            <tr>
+                <td>@item.Request.Description</td>
+
+                <td>
+                    $ @item.EstimatedUsd.ToString("N2")
+                    <br />
+                    <small class="text-muted">R @item.Request.Cost.ToString("N2")</small>
+                </td>
+
+                <td>
+                    R @item.Calculated.ToString("N2")
+                </td>
+
+                <td>
+                    @{
+                        var status = item.Request.Status;
+                        var badgeClass = "secondary";
+
+                        if (status == "Completed") badgeClass = "success";
+                        else if (status == "In Progress") badgeClass = "warning";
+                        else if (status == "Pending") badgeClass = "secondary";
+                    }
+
+                    <span class="badge bg-@badgeClass">@status</span>
+                </td>
+
+                <td>
+                    Contract @item.Request.Contract.Id - @item.Request.Contract.ServiceLevel
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Request.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Request.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Request.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,165 @@
+/* global theme throughout my project  */
+
+body {
+    background-color: #F5EFE6;
+    font-family: 'Inter', sans-serif;
+    color: #2E2E2E;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #6B2E2E !important;
+}
+
+.navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    transition: 0.2s ease;
+}
+
+    .nav-link:hover {
+        color: #EADFD0 !important;
+    }
+
+/* Layout spacing */
+.main-container {
+    margin-top: 30px;
+}
+
+/* Card styling */
+.custom-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E0D6C8;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 20px;
+}
+
+/* Footer */
+footer {
+    background-color: #FFFFFF;
+    border-top: 1px solid #E0D6C8;
+    padding: 10px 0;
+}
+
+/* contract index styling */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: #6B2E2E;
+}
+
+/* Buttons */
+.btn-soft {
+    background-color: #6B2E2E;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+    .btn-soft:hover {
+        background-color: #8B3A3A;
+    }
+
+.btn-outline-soft {
+    background-color: transparent;
+    border: 1px solid #D6C7B5;
+    color: #6B2E2E;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+    .btn-outline-soft:hover {
+        background-color: #F3EDE5;
+    }
+
+/* FILTER BAR  */
+.filter-bar {
+    background: #ffffff;
+    border: 1px solid #E0D6C8;
+    border-radius: 10px;
+    padding: 12px 15px;
+    margin-bottom: 25px;
+}
+
+    .filter-bar label {
+        font-size: 12px;
+        color: #7a6f63;
+        margin-bottom: 3px;
+    }
+
+    .filter-bar .form-control,
+    .filter-bar select {
+        font-size: 13px;
+        height: 34px;
+    }
+
+/* TABLE CLEAN LOOK */
+.contract-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+    /* header */
+    .contract-table thead {
+        background-color: #F4ECE4;
+    }
+
+    .contract-table th {
+        font-size: 13px;
+        font-weight: 600;
+        color: #6B2E2E;
+        padding: 10px;
+    }
+
+    /* rows */
+    .contract-table td {
+        padding: 10px;
+        font-size: 13px;
+        border-top: 1px solid #EFE7DC;
+    }
+
+    /* subtle hover */
+    .contract-table tbody tr:hover {
+        background-color: #FAF6F1;
+    }
+
+/* status badges  */
+.badge-draft {
+    background-color: #bfbfbf;
+    font-size: 11px;
+}
+
+.badge-active {
+    background-color: #6f9b6f;
+    font-size: 11px;
+}
+
+.badge-expired {
+    background-color: #b85c5c;
+    font-size: 11px;
+}
+
+.badge-hold {
+    background-color: #c7a34b;
+    font-size: 11px;
+}

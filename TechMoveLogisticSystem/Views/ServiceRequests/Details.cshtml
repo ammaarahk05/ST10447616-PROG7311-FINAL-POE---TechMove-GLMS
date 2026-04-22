@@ -1,0 +1,58 @@
+﻿@model TechMoveLogisticSystem.Models.ServiceRequest
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ServiceRequest</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            Cost
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                var rate = (decimal)ViewBag.Rate;
+                var usd = Math.Round(Model.Cost / rate, 2);
+            }
+
+            $ @usd.ToString("N2") <br />
+            <small>R @Model.Cost.ToString("N2")</small>
+        </dd>
+        <dt class="col-sm-2">
+            Status
+        </dt>
+        <dd class="col-sm-10">
+            @{
+                var status = Model.Status;
+                var badgeClass = "secondary";
+
+                if (status == "Completed") badgeClass = "success";
+                else if (status == "In Progress") badgeClass = "warning";
+                else if (status == "Pending") badgeClass = "secondary";
+            }
+
+            <span class="badge bg-@badgeClass">@status</span>
+        </dd>
+        <dt class="col-sm-2">
+            Contract
+        </dt>
+        <dd class="col-sm-10">
+            Contract @Model.Contract.Id - @Model.Contract.ServiceLevel
+            (@Model.Contract.Client.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
