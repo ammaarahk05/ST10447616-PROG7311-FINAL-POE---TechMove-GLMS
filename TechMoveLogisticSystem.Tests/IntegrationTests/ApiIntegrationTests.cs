@@ -6,6 +6,7 @@ using Xunit;
 
 namespace TechMoveLogisticSystem.Tests.IntegrationTests
 {
+    [Trait("Category", "Integration")]
     public class ApiIntegrationTests
     {
         private const string ApiBaseUrl = "https://localhost:7120/";
