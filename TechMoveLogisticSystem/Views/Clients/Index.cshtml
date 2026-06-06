@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TechMoveLogisticSystem.Models.Client>
+﻿@model IEnumerable<TechMoveLogisticSystem.DTOs.ClientReadDto>
 
 @{
     ViewData["Title"] = "Clients";
@@ -10,6 +10,13 @@
     <a asp-action="Create" class="btn-soft">+ New Client</a>
 </div>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="text-danger" style="margin-bottom:15px;">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 <div class="row">
 
     @foreach (var item in Model)
@@ -18,7 +25,7 @@
 
             <div class="custom-card h-100">
 
-                <!-- HEADER -->
+                <!-- Shows client name from the API DTO -->
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <h5 style="margin:0; font-family:'Playfair Display', serif; color:#6B2E2E;">
                         @item.Name
@@ -27,18 +34,23 @@
 
                 <hr style="border-color:#E0D6C8;" />
 
-                <!-- DETAILS -->
+                <!-- Client contact details from backend API -->
                 <div style="margin-bottom:10px;">
                     <span class="label">Contact Details</span>
                     <p style="margin:0;">@item.ContactDetails</p>
                 </div>
 
-                <div style="margin-bottom:15px;">
+                <div style="margin-bottom:10px;">
                     <span class="label">Region</span>
                     <p style="margin:0;">@item.Region</p>
                 </div>
 
-                <!-- ACTIONS -->
+                <div style="margin-bottom:15px;">
+                    <span class="label">Contracts</span>
+                    <p style="margin:0;">@item.ContractCount</p>
+                </div>
+
+                <!-- MVC actions still work, but data now comes from the API -->
                 <div style="display:flex; justify-content:space-between; margin-top:15px;">
 
                     <a asp-action="Details"

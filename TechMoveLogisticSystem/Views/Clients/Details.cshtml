@@ -1,36 +1,46 @@
-﻿@model TechMoveLogisticSystem.Models.Client
+﻿@model TechMoveLogisticSystem.DTOs.ClientReadDto
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Client Details";
 }
 
-<h1>Details</h1>
+<div class="page-header">
+    <h2 class="page-title">Client Details</h2>
 
-<div>
-    <h4>Client</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ContactDetails)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ContactDetails)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Region)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Region)
-        </dd>
-    </dl>
+    <a asp-action="Index" class="btn-outline-soft">Back</a>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="custom-card">
+
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h4 style="font-family:'Playfair Display', serif; color:#6B2E2E;">
+            @Model.Name
+        </h4>
+
+        <span class="label">Client ID: @Model.Id</span>
+    </div>
+
+    <hr style="border-color:#E0D6C8;" />
+
+    <!-- Details are displayed from the API DTO -->
+    <div style="margin-bottom:15px;">
+        <span class="label">Contact Details</span>
+        <p>@Model.ContactDetails</p>
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <span class="label">Region</span>
+        <p>@Model.Region</p>
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <span class="label">Contract Count</span>
+        <p>@Model.ContractCount</p>
+    </div>
+
+    <div style="margin-top:20px;">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-soft">Edit</a>
+        <a asp-action="Index" class="btn-outline-soft">Back to List</a>
+    </div>
+
 </div>

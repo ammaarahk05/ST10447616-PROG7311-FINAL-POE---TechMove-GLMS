@@ -53,6 +53,13 @@ namespace TechMoveLogisticSystem.Api.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<ServiceRequest?> GetEntityByIdAsync(int id)
+        {
+            // Gets the actual database model so it can be edited and saved
+            return await _context.ServiceRequests
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
         public async Task<Contract?> GetContractEntityAsync(int contractId)
         {
             // I need the actual Contract entity to validate the workflow rule
@@ -66,6 +73,27 @@ namespace TechMoveLogisticSystem.Api.Repositories
             await _context.SaveChangesAsync();
 
             return serviceRequest;
+        }
+
+        public async Task<bool> UpdateAsync(ServiceRequest serviceRequest)
+        {
+            // Updates the existing service request record
+            _context.ServiceRequests.Update(serviceRequest);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            // Finds the service request first so I can delete it safely
+            var serviceRequest = await _context.ServiceRequests.FindAsync(id);
+
+            if (serviceRequest == null)
+            {
+                return false;
+            }
+
+            _context.ServiceRequests.Remove(serviceRequest);
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

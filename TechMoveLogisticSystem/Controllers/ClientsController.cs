@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using TechMoveLogisticSystem.Data;
-using TechMoveLogisticSystem.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using TechMoveLogisticSystem.DTOs;
+using TechMoveLogisticSystem.Services;
 
 namespace TechMoveLogisticSystem.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IApiClientService _apiClientService;
 
-        public ClientsController(AppDbContext context)
+        public ClientsController(IApiClientService apiClientService)
         {
-            _context = context;
+            _apiClientService = apiClientService;
         }
 
         // GET: Clients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Clients.ToListAsync());
+            // MVC now gets clients from the backend API instead of SQL directly
+            var clients = await _apiClientService.GetClientsAsync();
+
+            return View(clients);
         }
 
         // GET: Clients/Details/5
@@ -33,8 +30,9 @@ namespace TechMoveLogisticSystem.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            // Reads one client through the API
+            var client = await _apiClientService.GetClientByIdAsync(id.Value);
+
             if (client == null)
             {
                 return NotFound();
@@ -50,19 +48,25 @@ namespace TechMoveLogisticSystem.Controllers
         }
 
         // POST: Clients/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ContactDetails,Region")] Client client)
+        public async Task<IActionResult> Create(ClientCreateDto client)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(client);
             }
-            return View(client);
+
+            // Sends the new client to the API
+            var result = await _apiClientService.CreateClientAsync(client);
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.ErrorMessage ?? "Client could not be created.");
+                return View(client);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Clients/Edit/5
@@ -73,47 +77,47 @@ namespace TechMoveLogisticSystem.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients.FindAsync(id);
+            // Gets existing client from the API before editing
+            var client = await _apiClientService.GetClientByIdAsync(id.Value);
+
             if (client == null)
             {
                 return NotFound();
             }
-            return View(client);
+
+            var updateDto = new ClientUpdateDto
+            {
+                Name = client.Name,
+                ContactDetails = client.ContactDetails,
+                Region = client.Region
+            };
+
+            // Keeps the client ID available for the edit form post route
+            ViewBag.ClientId = id.Value;
+
+            return View(updateDto);
         }
 
         // POST: Clients/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ContactDetails,Region")] Client client)
+        public async Task<IActionResult> Edit(int id, ClientUpdateDto client)
         {
-            if (id != client.Id)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return View(client);
             }
 
-            if (ModelState.IsValid)
+            // Sends edited client details to the API
+            var result = await _apiClientService.UpdateClientAsync(id, client);
+
+            if (!result.Success)
             {
-                try
-                {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", result.ErrorMessage ?? "Client could not be updated.");
+                return View(client);
             }
-            return View(client);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Clients/Delete/5
@@ -124,8 +128,9 @@ namespace TechMoveLogisticSystem.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            // Shows client details before confirming delete
+            var client = await _apiClientService.GetClientByIdAsync(id.Value);
+
             if (client == null)
             {
                 return NotFound();
@@ -139,19 +144,15 @@ namespace TechMoveLogisticSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
-            if (client != null)
+            // Deletes the client through the API
+            var result = await _apiClientService.DeleteClientAsync(id);
+
+            if (!result.Success)
             {
-                _context.Clients.Remove(client);
+                TempData["ErrorMessage"] = result.ErrorMessage ?? "Client could not be deleted.";
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ClientExists(int id)
-        {
-            return _context.Clients.Any(e => e.Id == id);
         }
     }
 }

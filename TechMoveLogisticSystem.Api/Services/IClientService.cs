@@ -12,5 +12,8 @@ namespace TechMoveLogisticSystem.Api.Services
 
         // Creates a new client after validation
         Task<(bool Success, string? ErrorMessage, ClientReadDto? Client)> CreateClientAsync(ClientCreateDto clientDto);
+
+        Task<(bool Success, string? ErrorMessage)> UpdateClientAsync(int id, ClientUpdateDto clientDto);
+        Task<(bool Success, string? ErrorMessage)> DeleteClientAsync(int id);
     }
 }

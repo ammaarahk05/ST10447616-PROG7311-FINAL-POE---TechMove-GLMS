@@ -62,5 +62,41 @@ namespace TechMoveLogisticSystem.Api.Repositories
 
             return client;
         }
+
+        public async Task<bool> UpdateAsync(int id, Client updatedClient)
+        {
+            // Finds the existing client record first
+            var existingClient = await _context.Clients.FindAsync(id);
+
+            if (existingClient == null)
+            {
+                return false;
+            }
+
+            // Updates only the fields the user can edit
+            existingClient.Name = updatedClient.Name;
+            existingClient.ContactDetails = updatedClient.ContactDetails;
+            existingClient.Region = updatedClient.Region;
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            // Finds the client before deleting
+            var client = await _context.Clients.FindAsync(id);
+
+            if (client == null)
+            {
+                return false;
+            }
+
+            _context.Clients.Remove(client);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

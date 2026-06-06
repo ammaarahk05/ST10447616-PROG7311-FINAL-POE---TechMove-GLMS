@@ -58,16 +58,23 @@
             </div>
 
             <!-- FILE -->
-            <div class="form-group">
-                <label>Signed Agreement</label>
+            <div class="form-group mb-3">
+                <label asp-for="SignedAgreementFile" class="control-label">Signed Agreement</label>
 
-                <input asp-for="SignedAgreementFile" type="file" class="form-control" />
+                <input asp-for="SignedAgreementFile"
+                       type="file"
+                       class="form-control"
+                       accept=".pdf" />
 
-                @if (!string.IsNullOrEmpty(Model.SignedAgreementPath))
+                <!-- Shows the user if they choose a non-PDF file -->
+                <span asp-validation-for="SignedAgreementFile" class="text-danger"></span>
+
+                @if (!string.IsNullOrWhiteSpace(Model.SignedAgreementFileName))
                 {
-                    <div class="file-note" style="margin-top:5px;">
+                    <div class="mt-2">
                         Current file:
-                        <a href="@Model.SignedAgreementPath" target="_blank">
+                        <a asp-action="DownloadAgreement"
+                               asp-route-id="@Model.Id">
                             @Model.SignedAgreementFileName
                         </a>
                     </div>

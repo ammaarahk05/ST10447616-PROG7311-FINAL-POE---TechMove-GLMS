@@ -1,39 +1,45 @@
-﻿@model TechMoveLogisticSystem.Models.Client
+﻿@model TechMoveLogisticSystem.DTOs.ClientReadDto
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Client";
 }
 
-<h1>Delete</h1>
+<div class="custom-card">
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Client</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ContactDetails)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ContactDetails)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Region)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Region)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+    <h2 class="page-title">Delete Client</h2>
+
+    <h4>Are you sure you want to delete this client?</h4>
+
+    <hr style="border-color:#E0D6C8;" />
+
+    <!-- Shows the API client data before deletion -->
+    <div style="margin-bottom:15px;">
+        <span class="label">Client Name</span>
+        <p>@Model.Name</p>
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <span class="label">Contact Details</span>
+        <p>@Model.ContactDetails</p>
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <span class="label">Region</span>
+        <p>@Model.Region</p>
+    </div>
+
+    <div style="margin-bottom:15px;">
+        <span class="label">Contract Count</span>
+        <p>@Model.ContractCount</p>
+    </div>
+
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+        @Html.AntiForgeryToken()
+
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="Index" class="btn-outline-soft">Back to List</a>
+        </div>
     </form>
+
 </div>

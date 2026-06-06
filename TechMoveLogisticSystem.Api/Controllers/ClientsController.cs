@@ -62,5 +62,49 @@ namespace TechMoveLogisticSystem.Api.Controllers
                 new { id = result.Client!.Id },
                 result.Client);
         }
+
+        // PUT: api/Clients/5
+        [Authorize]
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateClient(int id, ClientUpdateDto clientDto)
+        {
+            // Sends update request to service layer for validation and saving
+            var result = await _clientService.UpdateClientAsync(id, clientDto);
+
+            if (!result.Success)
+            {
+                if (result.ErrorMessage != null && result.ErrorMessage.Contains("was not found"))
+                {
+                    return NotFound(result.ErrorMessage);
+                }
+
+                return BadRequest(result.ErrorMessage);
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/Clients/5
+        [Authorize]
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteClient(int id)
+        {
+            // Deletes client through the API
+            var result = await _clientService.DeleteClientAsync(id);
+
+            if (!result.Success)
+            {
+                return NotFound(result.ErrorMessage);
+            }
+
+            return NoContent();
+        }
     }
 }

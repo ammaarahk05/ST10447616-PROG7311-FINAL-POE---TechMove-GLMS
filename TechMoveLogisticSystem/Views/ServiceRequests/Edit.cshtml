@@ -36,8 +36,10 @@
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ContractId" class="control-label"></label>
-                <select asp-for="ContractId" class="form-control" asp-items="ViewBag.ContractId"></select>
+                <label asp-for="ContractId" class="control-label">Contract</label>
+                <select asp-for="ContractId" class="form-control" asp-items="ViewBag.ContractId">
+                    <option value="">-- Select Contract --</option>
+                </select>
                 <span asp-validation-for="ContractId" class="text-danger"></span>
             </div>
             <div class="form-group">

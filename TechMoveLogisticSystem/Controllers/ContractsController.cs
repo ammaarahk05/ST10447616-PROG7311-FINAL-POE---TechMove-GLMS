@@ -1,81 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using TechMoveLogisticSystem.Data;
+using TechMoveLogisticSystem.DTOs;
 using TechMoveLogisticSystem.Models;
-using TechMoveLogisticSystem.Factories;
-
+using TechMoveLogisticSystem.Services;
 
 namespace TechMoveLogisticSystem.Controllers
 {
     public class ContractsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IApiContractService _apiContractService;
+        private readonly IApiClientService _apiClientService;
 
-        public ContractsController(AppDbContext context)
+        public ContractsController(
+            IApiContractService apiContractService,
+            IApiClientService apiClientService)
         {
-            _context = context;
+            _apiContractService = apiContractService;
+            _apiClientService = apiClientService;
         }
 
         // GET: Contracts
-        public async Task<IActionResult> Index(string statusFilter, DateTime? startDate, DateTime? endDate)
+        public async Task<IActionResult> Index(string? statusFilter, DateTime? startDate, DateTime? endDate)
         {
-            // base query- IQueryable for LINQ filtering in DB
-            var contracts = _context.Contracts
-                .Include(c => c.Client)
-                .AsQueryable();
+            // MVC now gets contracts from the backend API instead of SQL directly
+            var contractDtos = await _apiContractService.GetContractsAsync(statusFilter, startDate, endDate);
 
-            // 1st filter: Status
-            if (!string.IsNullOrEmpty(statusFilter))
-            {
-                var normalizedStatus = statusFilter.Trim().ToLower();
+            var contracts = contractDtos
+                .Select(MapToContractModel)
+                .ToList();
 
-                contracts = contracts.Where(c =>
-                    c.Status.ToLower() == normalizedStatus);
-            }
-
-            // 2nd filter: Start Date
-            if (startDate.HasValue)
-            {
-                contracts = contracts.Where(c =>
-                    c.StartDate >= startDate.Value);
-            }
-
-            // 3rd filtre: End Date
-            if (endDate.HasValue)
-            {
-                contracts = contracts.Where(c =>
-                    c.EndDate <= endDate.Value);
-            }
-
-            // Execute query
-            var result = await contracts.ToListAsync();
-
-            return View(result);
+            return View(contracts);
         }
 
         // GET: Contracts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            var contract = await _context.Contracts
-                .Include(c => c.Client)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            // MVC asks the API for the contract details
+            var contractDto = await _apiContractService.GetContractByIdAsync(id.Value);
 
-            if (contract == null) return NotFound();
+            if (contractDto == null)
+            {
+                return NotFound();
+            }
+
+            var contract = MapToContractModel(contractDto);
 
             return View(contract);
         }
 
         // GET: Contracts/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Name");
+            await PopulateClientDropDownAsync();
+
             return View();
         }
 
@@ -84,81 +66,86 @@ namespace TechMoveLogisticSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Contract contract)
         {
+            // These fields are not entered directly by the user on the form
+            ModelState.Remove("Client");
+            ModelState.Remove("ServiceRequests");
+            ModelState.Remove("SignedAgreementPath");
+            ModelState.Remove("SignedAgreementFileName");
+
             if (contract.SignedAgreementFile != null)
             {
-                var extension = Path.GetExtension(contract.SignedAgreementFile.FileName);
+                var extension = Path.GetExtension(contract.SignedAgreementFile.FileName).ToLowerInvariant();
 
-                if (extension.ToLower() != ".pdf")
+                // I validate PDF on the MVC side before sending it to the API
+                if (extension != ".pdf")
                 {
                     ModelState.AddModelError("SignedAgreementFile", "Only PDF files are allowed.");
                 }
-                else
-                {
-                    // Added UUID naming
-                    var fileName = Guid.NewGuid().ToString() + extension;
-
-                    var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-
-                    if (!Directory.Exists(uploadFolder))
-                        Directory.CreateDirectory(uploadFolder);
-
-                    var filePath = Path.Combine(uploadFolder, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await contract.SignedAgreementFile.CopyToAsync(stream);
-                    }
-
-                    contract.SignedAgreementFileName = 
-                    contract.SignedAgreementFile.FileName;
-                    contract.SignedAgreementPath = "/uploads/" + fileName;
-                }
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                IContractFactory factory;
-
-                // simple condition 
-                if (contract.ServiceLevel == "International")
-                {
-                    factory = new InternationalContractFactory();
-                }
-                else
-                {
-                    factory = new StandardContractFactory();
-                }
-
-                // creates a base contract using factory
-                var newContract = factory.CreateContract();
-
-                // copies the user input into the new contract
-                newContract.ClientId = contract.ClientId;
-                newContract.StartDate = contract.StartDate;
-                newContract.EndDate = contract.EndDate;
-                newContract.SignedAgreementPath = contract.SignedAgreementPath;
-                newContract.SignedAgreementFileName = contract.SignedAgreementFileName;
-
-                _context.Add(newContract);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Index));
+                await PopulateClientDropDownAsync(contract.ClientId);
+                return View(contract);
             }
 
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Name", contract.ClientId);
-            return View(contract);
+            var createDto = new ContractCreateDto
+            {
+                StartDate = contract.StartDate,
+                EndDate = contract.EndDate,
+                Status = string.IsNullOrWhiteSpace(contract.Status) ? "Draft" : contract.Status,
+                ServiceLevel = string.IsNullOrWhiteSpace(contract.ServiceLevel) ? "Standard" : contract.ServiceLevel,
+                ClientId = contract.ClientId,
+                SignedAgreementFileName = contract.SignedAgreementFile?.FileName ?? string.Empty
+            };
+
+            // MVC creates the contract through the backend API
+            var createdContract = await _apiContractService.CreateContractAsync(createDto);
+
+            if (createdContract == null)
+            {
+                ModelState.AddModelError(string.Empty, "The contract could not be created through the backend API.");
+                await PopulateClientDropDownAsync(contract.ClientId);
+                return View(contract);
+            }
+
+            // If a PDF was uploaded, MVC sends it to the API file upload endpoint
+            if (contract.SignedAgreementFile != null)
+            {
+                var uploadResult = await _apiContractService.UploadAgreementAsync(
+                    createdContract.Id,
+                    contract.SignedAgreementFile);
+
+                if (uploadResult == null)
+                {
+                    TempData["WarningMessage"] = "Contract was created, but the signed agreement could not be uploaded.";
+                }
+            }
+
+            TempData["SuccessMessage"] = "Contract created successfully through the backend API.";
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Contracts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            var contract = await _context.Contracts.FindAsync(id);
+            // MVC gets the existing contract from the API
+            var contractDto = await _apiContractService.GetContractByIdAsync(id.Value);
 
-            if (contract == null) return NotFound();
+            if (contractDto == null)
+            {
+                return NotFound();
+            }
 
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Name", contract.ClientId);
+            var contract = MapToContractModel(contractDto);
+
+            await PopulateClientDropDownAsync(contract.ClientId);
 
             return View(contract);
         }
@@ -168,78 +155,71 @@ namespace TechMoveLogisticSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Contract contract)
         {
-            if (id != contract.Id) return NotFound();
-
-            var existingContract = await _context.Contracts
-                .AsNoTracking()
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (existingContract == null) return NotFound();
-
-            if (contract.SignedAgreementFile != null && contract.SignedAgreementFile.Length > 0)
+            if (id != contract.Id)
             {
-                var extension = Path.GetExtension(contract.SignedAgreementFile.FileName);
+                return NotFound();
+            }
 
-                if (extension.ToLower() != ".pdf")
+            if (contract.SignedAgreementFile != null)
+            {
+                var extension = Path.GetExtension(contract.SignedAgreementFile.FileName).ToLowerInvariant();
+
+                // I validate PDF on the MVC side before calling the API
+                if (extension != ".pdf")
                 {
                     ModelState.AddModelError("SignedAgreementFile", "Only PDF files are allowed.");
                 }
-                else
-                {
-                    var fileName = Guid.NewGuid().ToString() + extension;
-                    var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-
-                    if (!Directory.Exists(uploadFolder))
-                        Directory.CreateDirectory(uploadFolder);
-
-                    var filePath = Path.Combine(uploadFolder, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await contract.SignedAgreementFile.CopyToAsync(stream);
-                    }
-
-                    contract.SignedAgreementFileName = 
-                    contract.SignedAgreementFile.FileName;
-                    contract.SignedAgreementPath = "/uploads/" + fileName;
-                }
             }
-            else
+
+            if (!ModelState.IsValid)
             {
-                contract.SignedAgreementPath = existingContract.SignedAgreementPath;
-                contract.SignedAgreementFileName = existingContract.SignedAgreementFileName;
+                await PopulateClientDropDownAsync(contract.ClientId);
+                return View(contract);
             }
 
-            if (ModelState.IsValid)
+            // The current backend API supports status updates through PATCH
+            var statusUpdated = await _apiContractService.UpdateContractStatusAsync(id, contract.Status);
+
+            if (!statusUpdated)
             {
-                try
-                {
-                    _context.Update(contract);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ContractExists(contract.Id)) return NotFound();
-                    else throw;
-                }
-
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError(string.Empty, "The contract status could not be updated through the backend API.");
+                await PopulateClientDropDownAsync(contract.ClientId);
+                return View(contract);
             }
 
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "Name", contract.ClientId);
-            return View(contract);
+            // If a new agreement was uploaded, send it to the API
+            if (contract.SignedAgreementFile != null)
+            {
+                var uploadResult = await _apiContractService.UploadAgreementAsync(id, contract.SignedAgreementFile);
+
+                if (uploadResult == null)
+                {
+                    TempData["WarningMessage"] = "Status was updated, but the signed agreement could not be uploaded.";
+                }
+            }
+
+            TempData["SuccessMessage"] = "Contract updated successfully through the backend API.";
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Contracts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            var contract = await _context.Contracts
-                .Include(c => c.Client)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            // MVC gets the contract from the API before showing the delete page
+            var contractDto = await _apiContractService.GetContractByIdAsync(id.Value);
 
-            if (contract == null) return NotFound();
+            if (contractDto == null)
+            {
+                return NotFound();
+            }
+
+            var contract = MapToContractModel(contractDto);
 
             return View(contract);
         }
@@ -249,19 +229,67 @@ namespace TechMoveLogisticSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contract = await _context.Contracts.FindAsync(id);
+            // MVC deletes through the backend API instead of SQL directly
+            var deleted = await _apiContractService.DeleteContractAsync(id);
 
-            if (contract != null)
-                _context.Contracts.Remove(contract);
+            if (!deleted)
+            {
+                return NotFound();
+            }
 
-            await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Contract deleted successfully through the backend API.";
 
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContractExists(int id)
+        // GET: Contracts/DownloadAgreement/5
+        public async Task<IActionResult> DownloadAgreement(int id)
         {
-            return _context.Contracts.Any(e => e.Id == id);
+            // MVC downloads the PDF through the backend API
+            var fileResult = await _apiContractService.DownloadAgreementAsync(id);
+
+            if (fileResult.FileBytes == null ||
+                string.IsNullOrWhiteSpace(fileResult.ContentType) ||
+                string.IsNullOrWhiteSpace(fileResult.FileName))
+            {
+                return NotFound("Signed agreement could not be downloaded.");
+            }
+
+            return File(fileResult.FileBytes, fileResult.ContentType, fileResult.FileName);
+        }
+
+        private async Task PopulateClientDropDownAsync(int? selectedClientId = null)
+        {
+            // MVC gets clients from the backend API for the dropdown
+            var clients = await _apiClientService.GetClientsAsync();
+
+            ViewData["ClientId"] = new SelectList(clients, "Id", "Name", selectedClientId);
+        }
+
+        private Contract MapToContractModel(ContractReadDto dto)
+        {
+            // I map API DTO data back into the existing MVC Contract model so my views can still work
+            return new Contract
+            {
+                Id = dto.Id,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                Status = dto.Status,
+                ServiceLevel = dto.ServiceLevel,
+                ClientId = dto.ClientId,
+                SignedAgreementFileName = dto.SignedAgreementFileName,
+
+                // This MVC action downloads the file from the API
+                SignedAgreementPath = Url.Action(nameof(DownloadAgreement), "Contracts", new { id = dto.Id }) ?? string.Empty,
+
+                Client = new Client
+                {
+                    Id = dto.ClientId,
+                    Name = dto.ClientName,
+                    Region = dto.ClientRegion,
+                    ContactDetails = string.Empty
+                }
+            };
         }
     }
 }

@@ -1,43 +1,53 @@
-﻿@model TechMoveLogisticSystem.Models.Client
+﻿@model TechMoveLogisticSystem.DTOs.ClientCreateDto
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Client";
 }
 
-<h1>Create</h1>
+<div class="custom-card">
 
-<h4>Client</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContactDetails" class="control-label"></label>
-                <input asp-for="ContactDetails" class="form-control" />
-                <span asp-validation-for="ContactDetails" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Region" class="control-label"></label>
-                <input asp-for="Region" class="form-control" />
-                <span asp-validation-for="Region" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 class="page-title">Create Client</h2>
+
+        <a asp-action="Index" class="btn-outline-soft">Back</a>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    <hr style="border-color:#E0D6C8;" />
+
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Shows API validation errors, like duplicate client or missing fields -->
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="control-label">Client Name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="ContactDetails" class="control-label">Contact Details</label>
+            <input asp-for="ContactDetails" class="form-control" />
+            <span asp-validation-for="ContactDetails" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Region" class="control-label">Region</label>
+            <input asp-for="Region" class="form-control" />
+            <span asp-validation-for="Region" class="text-danger"></span>
+        </div>
+
+        <div class="form-group" style="display:flex; justify-content:space-between; margin-top:20px;">
+            <a asp-action="Index" class="btn-outline-soft">Cancel</a>
+            <button type="submit" class="btn-soft">Create Client</button>
+        </div>
+    </form>
+
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

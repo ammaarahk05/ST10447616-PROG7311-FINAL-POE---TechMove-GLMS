@@ -15,13 +15,36 @@ builder.Services.AddHttpClient<CurrencyService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Reads the backend API base URL from appsettings.json
+builder.Services.Configure<ApiSettings>(
+    builder.Configuration.GetSection("ApiSettings"));
+
+// This HttpClient will be used by the MVC frontend to call the backend API
+builder.Services.AddHttpClient("TechMoveApi", client =>
+{
+    var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+
+    if (string.IsNullOrWhiteSpace(apiBaseUrl))
+    {
+        throw new InvalidOperationException("ApiSettings:BaseUrl is missing from appsettings.json.");
+    }
+
+    client.BaseAddress = new Uri(apiBaseUrl);
+});
+
+// These services allow the MVC frontend to call the backend API
+builder.Services.AddScoped<IApiAuthService, ApiAuthService>();
+builder.Services.AddScoped<IApiClientService, ApiClientService>();
+builder.Services.AddScoped<IApiContractService, ApiContractService>();
+builder.Services.AddScoped<IApiServiceRequestService, ApiServiceRequestService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    // The default HSTS value is 30 days. may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using TechMoveLogisticSystem.Data;
+using TechMoveLogisticSystem.DTOs;
 using TechMoveLogisticSystem.Models;
 using TechMoveLogisticSystem.Services;
 using TechMoveLogisticSystem.Strategies;
@@ -14,22 +9,32 @@ namespace TechMoveLogisticSystem.Controllers
 {
     public class ServiceRequestsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IApiServiceRequestService _apiServiceRequestService;
+        private readonly IApiContractService _apiContractService;
         private readonly CurrencyService _currencyService;
 
-        // injects the DbContext and CurrencyService
-        public ServiceRequestsController(AppDbContext context, CurrencyService currencyService)
+        public ServiceRequestsController(
+            IApiServiceRequestService apiServiceRequestService,
+            IApiContractService apiContractService,
+            CurrencyService currencyService)
         {
-            _context = context;
+            _apiServiceRequestService = apiServiceRequestService;
+            _apiContractService = apiContractService;
             _currencyService = currencyService;
         }
 
         // GET: ServiceRequests
         public async Task<IActionResult> Index()
         {
-            var requests = await _context.ServiceRequests
-    .Include(s => s.Contract)
-    .ToListAsync();
+            // MVC now gets service requests from the backend API instead of SQL directly
+            var serviceRequestDtos = await _apiServiceRequestService.GetServiceRequestsAsync();
+
+            // Gets contract data from API so the MVC table can still show service level
+            var contracts = await _apiContractService.GetContractsAsync(null, null, null);
+
+            var requests = serviceRequestDtos
+                .Select(dto => MapToServiceRequestModel(dto, contracts))
+                .ToList();
 
             var rate = await _currencyService.GetUsdToZarRateAsync();
 
@@ -37,7 +42,7 @@ namespace TechMoveLogisticSystem.Controllers
             {
                 var paymentContext = new PaymentContext();
 
-                if (r.Contract.ServiceLevel == "International")
+                if (r.Contract != null && r.Contract.ServiceLevel == "International")
                 {
                     paymentContext.SetStrategy(new InternationalPaymentStrategy());
                 }
@@ -52,7 +57,7 @@ namespace TechMoveLogisticSystem.Controllers
                 {
                     Request = r,
                     Calculated = calculated,
-                    EstimatedUsd = r.Cost / rate
+                    EstimatedUsd = rate > 0 ? r.Cost / rate : 0
                 };
             }).ToList();
 
@@ -69,95 +74,89 @@ namespace TechMoveLogisticSystem.Controllers
                 return NotFound();
             }
 
-            var serviceRequest = await _context.ServiceRequests
-                .Include(s => s.Contract)
-                .ThenInclude(c => c.Client)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var serviceRequestDto = await _apiServiceRequestService.GetServiceRequestByIdAsync(id.Value);
 
-            if (serviceRequest == null)
+            if (serviceRequestDto == null)
             {
                 return NotFound();
             }
 
+            var contracts = await _apiContractService.GetContractsAsync(null, null, null);
+
+            var serviceRequest = MapToServiceRequestModel(serviceRequestDto, contracts);
+
             var rate = await _currencyService.GetUsdToZarRateAsync();
+
             ViewBag.Rate = rate;
+
             return View(serviceRequest);
         }
 
         // GET: ServiceRequests/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var contracts = _context.Contracts
-                .Include(c => c.Client)
-                .ToList();
+            await PopulateContractDropDownAsync();
 
-            ViewData["ContractId"] = new SelectList(
-                contracts.Select(c => new
-                {
-                    Id = c.Id,
-                    Display = $"Contract {c.Id} - {c.ServiceLevel} ({c.Client.Name})"
-                }),
-                "Id",
-                "Display"
-            );
             return View();
         }
 
         // POST: ServiceRequests/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,Cost,Status,ContractId")] ServiceRequest serviceRequest)
+        public async Task<IActionResult> Create(ServiceRequest serviceRequest)
         {
-            // workflow validation
+            ModelState.Remove("Contract");
 
-            var contract = await _context.Contracts
-                .FirstOrDefaultAsync(c => c.Id == serviceRequest.ContractId);
-
-            if (contract == null)
+            if (string.IsNullOrWhiteSpace(serviceRequest.Description))
             {
-                ModelState.AddModelError("ContractId", "The selected contract does not exist.");
-            }
-            else
-            {
-                var status = contract.Status?.Trim().ToLower();
-
-                if (status == "expired" || status == "on hold")
-                {
-                    ModelState.AddModelError("ContractId",
-                        "BLOCKED! Cannot create a Service Request for an Expired or On Hold contract.");
-                }
+                ModelState.AddModelError("Description", "Description is required.");
             }
 
-            // stops early if invalid and avoids unnecessary API calls)
+            if (serviceRequest.Cost <= 0)
+            {
+                ModelState.AddModelError("Cost", "Cost must be a positive value.");
+            }
+
             if (!ModelState.IsValid)
             {
-                ViewData["ContractId"] = new SelectList(_context.Contracts, "Id", "Id", serviceRequest.ContractId);
+                await PopulateContractDropDownAsync(serviceRequest.ContractId);
                 return View(serviceRequest);
             }
 
-            // CURRENCY CONVERSION
+            decimal rate;
+
             try
             {
-                // gets the live USD to ZAR rate from exchangerate-api.com 
-                decimal rate = await _currencyService.GetUsdToZarRateAsync();
-
-                // convertc user input (USD) into ZAR
+                // User enters USD in MVC, then MVC converts to ZAR before sending to API
+                rate = await _currencyService.GetUsdToZarRateAsync();
                 serviceRequest.Cost = _currencyService.ConvertUsdToZar(serviceRequest.Cost, rate);
-
             }
-
             catch
             {
-                // If API fails, it shows the user-friendly error
-                ModelState.AddModelError("", "Currency conversion failed. Please try again later.");
-
-                ViewData["ContractId"] = new SelectList(_context.Contracts, "Id", "Id", serviceRequest.ContractId);
+                ModelState.AddModelError(string.Empty, "Currency conversion failed. Please try again later.");
+                await PopulateContractDropDownAsync(serviceRequest.ContractId);
                 return View(serviceRequest);
             }
 
-            //saves to the database
-            _context.Add(serviceRequest);
-            await _context.SaveChangesAsync();
+            var createDto = new ServiceRequestCreateDto
+            {
+                Description = serviceRequest.Description,
+                Cost = serviceRequest.Cost,
+                Status = string.IsNullOrWhiteSpace(serviceRequest.Status) ? "Pending" : serviceRequest.Status,
+                ContractId = serviceRequest.ContractId
+            };
+
+            // Sends the service request to the backend API
+            var result = await _apiServiceRequestService.CreateServiceRequestAsync(createDto);
+
+            if (!result.Success)
+            {
+                AddApiErrorToModelState(result.ErrorMessage);
+                await PopulateContractDropDownAsync(serviceRequest.ContractId);
+                return View(serviceRequest);
+            }
+
+            TempData["SuccessMessage"] = "Service request created successfully through the backend API.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -170,31 +169,25 @@ namespace TechMoveLogisticSystem.Controllers
                 return NotFound();
             }
 
-            var serviceRequest = await _context.ServiceRequests.FindAsync(id);
-            decimal rate = await _currencyService.GetUsdToZarRateAsync();
+            var serviceRequestDto = await _apiServiceRequestService.GetServiceRequestByIdAsync(id.Value);
 
-            // convert stored ZAR back to USD for display
-            serviceRequest.Cost = Math.Round(serviceRequest.Cost / rate, 2);
-
-            if (serviceRequest == null)
+            if (serviceRequestDto == null)
             {
                 return NotFound();
             }
 
-            var contracts = _context.Contracts
-                .Include(c => c.Client)
-                .ToList();
+            var rate = await _currencyService.GetUsdToZarRateAsync();
 
-            ViewData["ContractId"] = new SelectList(
-                contracts.Select(c => new
-                {
-                    Id = c.Id,
-                    Display = $"Contract {c.Id} - {c.ServiceLevel} ({c.Client.Name})"
-                }),
-                "Id",
-                "Display",
-                serviceRequest.ContractId
-            );
+            var serviceRequest = new ServiceRequest
+            {
+                Id = serviceRequestDto.Id,
+                Description = serviceRequestDto.Description,
+                Cost = rate > 0 ? Math.Round(serviceRequestDto.Cost / rate, 2) : serviceRequestDto.Cost,
+                Status = serviceRequestDto.Status,
+                ContractId = serviceRequestDto.ContractId
+            };
+
+            await PopulateContractDropDownAsync(serviceRequest.ContractId);
 
             return View(serviceRequest);
         }
@@ -202,54 +195,63 @@ namespace TechMoveLogisticSystem.Controllers
         // POST: ServiceRequests/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Cost,Status,ContractId")] ServiceRequest serviceRequest)
+        public async Task<IActionResult> Edit(int id, ServiceRequest serviceRequest)
         {
             if (id != serviceRequest.Id)
             {
                 return NotFound();
             }
 
-            var contract = await _context.Contracts
-                .FirstOrDefaultAsync(c => c.Id == serviceRequest.ContractId);
+            ModelState.Remove("Contract");
 
-            if (contract == null)
+            if (string.IsNullOrWhiteSpace(serviceRequest.Description))
             {
-                ModelState.AddModelError("ContractId", "Selected contract does not exist.");
+                ModelState.AddModelError("Description", "Description is required.");
             }
-            else
-            {
-                var status = contract.Status?.Trim().ToLower();
 
-                if (status == "expired" || status == "on hold")
-                {
-                    ModelState.AddModelError("ContractId",
-                        "BLOCKED! Cannot assign Service Request to an Expired or On Hold contract.");
-                }
+            if (serviceRequest.Cost <= 0)
+            {
+                ModelState.AddModelError("Cost", "Cost must be a positive value.");
             }
 
             if (!ModelState.IsValid)
             {
-                ViewData["ContractId"] = new SelectList(_context.Contracts, "Id", "Id", serviceRequest.ContractId);
+                await PopulateContractDropDownAsync(serviceRequest.ContractId);
                 return View(serviceRequest);
             }
 
             try
             {
-                decimal rate = await _currencyService.GetUsdToZarRateAsync();
-
-                // convert edited USD to ZAR
+                // User edits USD in MVC, then MVC converts to ZAR before sending to API
+                var rate = await _currencyService.GetUsdToZarRateAsync();
                 serviceRequest.Cost = _currencyService.ConvertUsdToZar(serviceRequest.Cost, rate);
-
-                _context.Update(serviceRequest);
-                await _context.SaveChangesAsync();
             }
             catch
             {
-                ModelState.AddModelError("", "Currency conversion failed. Please try again later.");
-
-                ViewData["ContractId"] = new SelectList(_context.Contracts, "Id", "Id", serviceRequest.ContractId);
+                ModelState.AddModelError(string.Empty, "Currency conversion failed. Please try again later.");
+                await PopulateContractDropDownAsync(serviceRequest.ContractId);
                 return View(serviceRequest);
             }
+
+            var updateDto = new ServiceRequestUpdateDto
+            {
+                Description = serviceRequest.Description,
+                Cost = serviceRequest.Cost,
+                Status = serviceRequest.Status,
+                ContractId = serviceRequest.ContractId
+            };
+
+            // Sends the update through the backend API
+            var result = await _apiServiceRequestService.UpdateServiceRequestAsync(id, updateDto);
+
+            if (!result.Success)
+            {
+                AddApiErrorToModelState(result.ErrorMessage);
+                await PopulateContractDropDownAsync(serviceRequest.ContractId);
+                return View(serviceRequest);
+            }
+
+            TempData["SuccessMessage"] = "Service request updated successfully through the backend API.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -262,14 +264,16 @@ namespace TechMoveLogisticSystem.Controllers
                 return NotFound();
             }
 
-            var serviceRequest = await _context.ServiceRequests
-                .Include(s => s.Contract)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var serviceRequestDto = await _apiServiceRequestService.GetServiceRequestByIdAsync(id.Value);
 
-            if (serviceRequest == null)
+            if (serviceRequestDto == null)
             {
                 return NotFound();
             }
+
+            var contracts = await _apiContractService.GetContractsAsync(null, null, null);
+
+            var serviceRequest = MapToServiceRequestModel(serviceRequestDto, contracts);
 
             return View(serviceRequest);
         }
@@ -279,20 +283,86 @@ namespace TechMoveLogisticSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var serviceRequest = await _context.ServiceRequests.FindAsync(id);
+            // Deletes through the backend API instead of SQL directly
+            var result = await _apiServiceRequestService.DeleteServiceRequestAsync(id);
 
-            if (serviceRequest != null)
+            if (!result.Success)
             {
-                _context.ServiceRequests.Remove(serviceRequest);
+                TempData["ErrorMessage"] = result.ErrorMessage ?? "Service request could not be deleted.";
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ServiceRequestExists(int id)
+        private async Task PopulateContractDropDownAsync(int? selectedContractId = null)
         {
-            return _context.ServiceRequests.Any(e => e.Id == id);
+            // MVC gets contracts from the backend API for the dropdown
+            var contracts = await _apiContractService.GetContractsAsync(null, null, null);
+
+            ViewData["ContractId"] = new SelectList(
+                contracts.Select(c => new
+                {
+                    Id = c.Id,
+                    Display = $"Contract {c.Id} - {c.ServiceLevel} - {c.ClientName} - {c.Status}"
+                }),
+                "Id",
+                "Display",
+                selectedContractId
+            );
+        }
+
+        private ServiceRequest MapToServiceRequestModel(
+            ServiceRequestReadDto dto,
+            List<ContractReadDto> contracts)
+        {
+            var matchingContract = contracts.FirstOrDefault(c => c.Id == dto.ContractId);
+
+            return new ServiceRequest
+            {
+                Id = dto.Id,
+                Description = dto.Description,
+                Cost = dto.Cost,
+                Status = dto.Status,
+                ContractId = dto.ContractId,
+                Contract = new Contract
+                {
+                    Id = dto.ContractId,
+                    Status = dto.ContractStatus,
+                    ServiceLevel = matchingContract?.ServiceLevel ?? "Standard",
+                    Client = new Client
+                    {
+                        Name = dto.ClientName,
+                        ContactDetails = string.Empty,
+                        Region = matchingContract?.ClientRegion ?? string.Empty
+                    }
+                }
+            };
+        }
+
+        private void AddApiErrorToModelState(string? errorMessage)
+        {
+            if (string.IsNullOrWhiteSpace(errorMessage))
+            {
+                ModelState.AddModelError(string.Empty, "The API rejected the request.");
+                return;
+            }
+
+            if (errorMessage.Contains("Expired") || errorMessage.Contains("On Hold"))
+            {
+                ModelState.AddModelError("ContractId", "BLOCKED! Cannot create or assign a Service Request for an Expired or On Hold contract.");
+            }
+            else if (errorMessage.Contains("Description"))
+            {
+                ModelState.AddModelError("Description", errorMessage);
+            }
+            else if (errorMessage.Contains("Cost"))
+            {
+                ModelState.AddModelError("Cost", errorMessage);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, errorMessage);
+            }
         }
     }
 }

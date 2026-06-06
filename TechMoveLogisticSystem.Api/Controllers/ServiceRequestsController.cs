@@ -62,5 +62,51 @@ namespace TechMoveLogisticSystem.Api.Controllers
                 new { id = result.ServiceRequest!.Id },
                 result.ServiceRequest);
         }
+
+        // PUT: api/ServiceRequests/5
+        // Protected because updating a service request should require login
+        [Authorize]
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateServiceRequest(int id, ServiceRequestUpdateDto dto)
+        {
+            // Sends the update to the service layer so backend rules are still enforced
+            var result = await _serviceRequestService.UpdateAsync(id, dto);
+
+            if (!result.Success)
+            {
+                if (result.ErrorMessage != null && result.ErrorMessage.Contains("was not found"))
+                {
+                    return NotFound(result.ErrorMessage);
+                }
+
+                return BadRequest(result.ErrorMessage);
+            }
+
+            return NoContent();
+        }
+
+        // DELETE: api/ServiceRequests/5
+        // Protected because deleting a service request should also require login
+        [Authorize]
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteServiceRequest(int id)
+        {
+            // Deletes a service request through the API
+            var deleted = await _serviceRequestService.DeleteAsync(id);
+
+            if (!deleted)
+            {
+                return NotFound($"Service request with ID {id} was not found.");
+            }
+
+            return NoContent();
+        }
     }
 }

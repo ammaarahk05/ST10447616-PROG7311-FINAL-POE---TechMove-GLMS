@@ -47,8 +47,10 @@ namespace TechMoveLogisticSystem.Api.Services
                 return (false, $"Contract with ID {requestDto.ContractId} does not exist.", null);
             }
 
-            // This is the key workflow rule from Part 2
-            if (contract.Status == "Expired" || contract.Status == "On Hold")
+            // This keeps the Part 2 workflow rule inside the backend API
+            var contractStatus = contract.Status?.Trim().ToLower();
+
+            if (contractStatus == "expired" || contractStatus == "on hold")
             {
                 return (false, "Service request cannot be created for an Expired or On Hold contract.", null);
             }
@@ -66,6 +68,64 @@ namespace TechMoveLogisticSystem.Api.Services
             var readDto = await _serviceRequestRepository.GetByIdAsync(createdRequest.Id);
 
             return (true, null, readDto);
+        }
+
+        public async Task<(bool Success, string? ErrorMessage)> UpdateAsync(int id, ServiceRequestUpdateDto dto)
+        {
+            if (dto == null)
+            {
+                return (false, "Service request data is required.");
+            }
+
+            // Gets the real database model, not the read DTO
+            var existingRequest = await _serviceRequestRepository.GetEntityByIdAsync(id);
+
+            if (existingRequest == null)
+            {
+                return (false, $"Service request with ID {id} was not found.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.Description))
+            {
+                return (false, "Description is required.");
+            }
+
+            if (dto.Cost < 0)
+            {
+                return (false, "Cost cannot be negative.");
+            }
+
+            var contract = await _serviceRequestRepository.GetContractEntityAsync(dto.ContractId);
+
+            if (contract == null)
+            {
+                return (false, $"Contract with ID {dto.ContractId} does not exist.");
+            }
+
+            // This prevents assigning requests to blocked contracts
+            var contractStatus = contract.Status?.Trim().ToLower();
+
+            if (contractStatus == "expired" || contractStatus == "on hold")
+            {
+                return (false, "Service request cannot be assigned to an Expired or On Hold contract.");
+            }
+
+            existingRequest.Description = dto.Description;
+            existingRequest.Cost = dto.Cost;
+            existingRequest.Status = string.IsNullOrWhiteSpace(dto.Status) ? "Pending" : dto.Status;
+            existingRequest.ContractId = dto.ContractId;
+
+            var updated = await _serviceRequestRepository.UpdateAsync(existingRequest);
+
+            return updated
+                ? (true, null)
+                : (false, "Service request could not be updated.");
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            // Deletes through the repository so the controller stays clean
+            return await _serviceRequestRepository.DeleteAsync(id);
         }
     }
 }
