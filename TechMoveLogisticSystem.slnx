@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="TechMoveLogisticSystem.Api/TechMoveLogisticSystem.Api.csproj" Id="1de14fef-aae5-4f5a-90d7-f305d9385fd7" />
   <Project Path="TechMoveLogisticSystem.Tests/TechMoveLogisticSystem.Tests.csproj" />
   <Project Path="TechMoveLogisticSystem/TechMoveLogisticSystem.csproj" />
 </Solution>

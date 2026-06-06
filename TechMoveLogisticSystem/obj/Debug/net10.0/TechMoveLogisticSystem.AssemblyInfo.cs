@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TechMoveLogisticSystem")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c7dc0eda8e8d5dcbef37cafc3dcfd17095a917b5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d108dbcc1b66a24a8024072003286cbdec064239")]
 [assembly: System.Reflection.AssemblyProductAttribute("TechMoveLogisticSystem")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TechMoveLogisticSystem")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
