@@ -98,14 +98,46 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Swagger is enabled during development for testing the API
-if (app.Environment.IsDevelopment())
+// Applies migrations automatically when running inside Docker.
+// The retry loop gives the SQL Server container time to finish starting.
+if (builder.Configuration.GetValue<bool>("ApplyMigrations"))
+{
+    var migrated = false;
+
+    for (int attempt = 1; attempt <= 10 && !migrated; attempt++)
+    {
+        try
+        {
+            using var scope = app.Services.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            db.Database.Migrate();
+            migrated = true;
+        }
+        catch
+        {
+            if (attempt == 10)
+            {
+                throw;
+            }
+
+            await Task.Delay(5000);
+        }
+    }
+}
+
+// Swagger is enabled during development and Docker testing
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// HTTPS redirection is skipped in Docker because containers communicate over HTTP internally
+if (!app.Environment.IsEnvironment("Docker"))
+{
+    app.UseHttpsRedirection();
+}
 
 // Authentication must come before Authorization
 app.UseAuthentication();

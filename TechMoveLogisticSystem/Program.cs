@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+
 using System.Globalization;
-using TechMoveLogisticSystem.Data;
+
 using TechMoveLogisticSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,10 +10,6 @@ builder.Services.AddControllersWithViews();
 
 //Currency Service
 builder.Services.AddHttpClient<CurrencyService>();
-
-// Add DbContext
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Reads the backend API base URL from appsettings.json
 builder.Services.Configure<ApiSettings>(
@@ -54,7 +50,12 @@ var cultureInfo = new CultureInfo("en-US");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
-app.UseHttpsRedirection();
+// HTTPS redirection is skipped in Docker because the container is served over HTTP
+if (!app.Environment.IsEnvironment("Docker"))
+{
+    app.UseHttpsRedirection();
+}
+
 app.UseRouting();
 
 app.UseAuthorization();

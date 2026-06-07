@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  sql-server-db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: techmove-sql-server-db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "TechMove@12345"
+    ports:
+      - "14333:1433"
+    volumes:
+      - techmove_sql_data:/var/opt/mssql
+    networks:
+      - techmove-network
+
+  glms-backend-api:
+    build:
+      context: .
+      dockerfile: TechMoveLogisticSystem.Api/Dockerfile
+    container_name: glms-backend-api
+    depends_on:
+      - sql-server-db
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Docker"
+      ASPNETCORE_URLS: "http://+:8080"
+      ApplyMigrations: "true"
+      ConnectionStrings__DefaultConnection: "Server=sql-server-db,1433;Database=TechMoveLogisticDB;User Id=sa;Password=TechMove@12345;TrustServerCertificate=True;MultipleActiveResultSets=true"
+      Jwt__Key: "ThisIsASecretKeyForTechMoveJwtAuthentication12345"
+      Jwt__Issuer: "TechMoveLogisticSystem.Api"
+      Jwt__Audience: "TechMoveLogisticSystem.Mvc"
+      Jwt__ExpiryMinutes: "60"
+      CurrencyApi__Url: "https://open.er-api.com/v6/latest/USD"
+    ports:
+      - "7120:8080"
+    networks:
+      - techmove-network
+
+  glms-frontend-web:
+    build:
+      context: .
+      dockerfile: TechMoveLogisticSystem/Dockerfile
+    container_name: glms-frontend-web
+    depends_on:
+      - glms-backend-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_URLS: "http://+:8080"
+      ApiSettings__BaseUrl: "http://glms-backend-api:8080/"
+      ApiSettings__Username: "admin"
+      ApiSettings__Password: "Admin@123"
+    ports:
+      - "7131:8080"
+    networks:
+      - techmove-network
+
+volumes:
+  techmove_sql_data:
+
+networks:
+  techmove-network:
+    driver: bridge
