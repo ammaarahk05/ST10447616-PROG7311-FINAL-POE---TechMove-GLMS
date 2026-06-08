@@ -9,7 +9,7 @@ namespace TechMoveLogisticSystem.Tests.IntegrationTests
     [Trait("Category", "Integration")]
     public class ApiIntegrationTests
     {
-        private const string ApiBaseUrl = "https://localhost:7120/";
+        private const string ApiBaseUrl = "http://localhost:7120/";
 
         private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
         {
